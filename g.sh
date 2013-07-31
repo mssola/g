@@ -67,7 +67,7 @@ g() {
     gfile=$HOME/.gfile
     declare -A gshortcuts
 
-    # Make sure the the gfile actually exists.
+    # Make sure that the gfile actually exists.
     if [ ! -z "$GFILE" ]; then
         gfile="$GFILE"
     fi
