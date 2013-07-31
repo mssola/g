@@ -1,4 +1,3 @@
-#!/bin/bash
 #
 # Copyright (C) 2013 Miquel Sabaté Solà <mikisabate@gmail.com>
 #
@@ -102,9 +101,17 @@ g() {
         ;;
     list)
         get_shortcuts
-        for i in "${!gshortcuts[@]}"; do
-            echo "$i => ${gshortcuts[$i]}"
-        done
+        if [[ "$#" == "2" && "$2" == "--keys" ]]; then
+            str=""
+            for i in "${!gshortcuts[@]}"; do
+                str="$str $i"
+            done
+            echo $str
+        else
+            for i in "${!gshortcuts[@]}"; do
+                echo "$i => ${gshortcuts[$i]}"
+            done
+        fi
         ;;
     *)
         get_shortcuts
