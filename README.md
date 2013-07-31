@@ -1,6 +1,26 @@
 # Yeah! just one letter !
 
-To do.
+This repository holds a very humble and simple script that handles shortcuts
+of bash paths. For example:
+
+    $ g awesome
+    (instead of ...)
+    $ cd /home/user/directory/dir/awesome
+
+Furthermore, this repo also brings a file that adds bash completion so the user
+can access the desired directory as fast as possible. In order to manage
+shortcuts, this script accepts three commands:
+
+    $ g add awesome /home/user/directory/dir/awesome
+    $ g rm awesome
+    $ g list
+
+I guess that the commands above are quite self-explanatory.
+
+# Install
+
+Just place the g.sh and the gcompletion.sh files wherever you want and then
+add a "source" command for both of the files in the .bashrc file.
 
 # Legal stuff
 
