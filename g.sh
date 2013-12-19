@@ -109,7 +109,7 @@ g() {
             echo $str
         else
             for i in "${!gshortcuts[@]}"; do
-                echo "$i => ${gshortcuts[$i]}"
+                echo -e "$i\t=> ${gshortcuts[$i]}"
             done
         fi
         ;;
