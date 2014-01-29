@@ -24,7 +24,7 @@ add a "source" command for both of the files in the .bashrc file.
 
 # Legal stuff
 
-Copyright (C) 2013 Miquel Sabaté Solà
+Copyright (C) 2013-2013 Miquel Sabaté Solà
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
