@@ -62,7 +62,7 @@ save_shortcuts() {
 
 # The main function for this script.
 g() {
-    version="0.1"
+    version="0.2"
     cmd="$1"
     gfile=$HOME/.gfile
     declare -A gshortcuts
