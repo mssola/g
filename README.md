@@ -15,7 +15,9 @@ shortcuts, this script accepts three commands:
     $ g rm awesome
     $ g list
 
-I guess that the commands above are quite self-explanatory.
+I guess that the commands above are quite self-explanatory. Note though that if
+the path was not given to the add command then the current working directory
+will be picked instead.
 
 # Install
 
@@ -24,7 +26,7 @@ add a "source" command for both of the files in the .bashrc file.
 
 # Legal stuff
 
-Copyright (C) 2013-2013 Miquel Sabaté Solà
+Copyright (C) 2013-2014 Miquel Sabaté Solà
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
