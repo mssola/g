@@ -82,12 +82,16 @@ g() {
         help
         ;;
     add)
-        if [ "$#" != "3" ]; then
-            echo "usage: g add <name> <path>"
+        path=`pwd`
+        if [ "$#" != "2" ] && [ "$#" != "3" ]; then
+            echo "usage: g add <name> [path]"
             return
         fi
+        if [ "$#" == "3" ]; then
+            path=$3
+        fi
         get_shortcuts
-        gshortcuts[$2]=$3
+        gshortcuts[$2]=$path
         save_shortcuts
         ;;
     rm)
