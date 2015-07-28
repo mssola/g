@@ -18,7 +18,7 @@
 
 # Print the usage string.
 usage() {
-    echo "usage: g [-h | --help] [-v | --version] <command> <args>"
+    echo "usage: g [-h | --help] [-v | --version] <command> [<args>]"
 }
 
 # Print the help message.
@@ -65,7 +65,7 @@ save_shortcuts() {
 
 # The main function for this script.
 g() {
-    version="0.3.2"
+    version="0.3.3"
     cmd="$1"
     gfile=$HOME/.gfile
     declare -A gshortcuts
