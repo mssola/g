@@ -24,10 +24,13 @@ usage() {
 # Print the help message.
 help() {
     usage
-    echo -e "\nThe g command are:"
-    echo -e "   add\tAdd a new shortcut."
-    echo -e "   rm\tRemove a shorcut."
-    echo -e "   list\tList all the available shortcuts."
+    echo -e "\nThe g commands are:"
+    tab=$'\t'
+    column -t -s $'\t' <<HERE
+   add${tab}Add a new shortcut.
+   rm${tab}Remove a shorcut.
+   list${tab}List all the available shortcuts.
+HERE
 }
 
 # Fill the hash of shortcuts with the contents of the gfile.
@@ -62,7 +65,7 @@ save_shortcuts() {
 
 # The main function for this script.
 g() {
-    version="0.3"
+    version="0.3.1"
     cmd="$1"
     gfile=$HOME/.gfile
     declare -A gshortcuts
@@ -76,7 +79,7 @@ g() {
     # Parse the command.
     case "$cmd" in
     -v | --version)
-        echo "g version: $version"
+        echo "g version $version"
         ;;
     -h | --help)
         help
