@@ -65,7 +65,7 @@ save_shortcuts() {
 
 # The main function for this script.
 g() {
-    version="0.3.1"
+    version="0.3.2"
     cmd="$1"
     gfile=$HOME/.gfile
     declare -A gshortcuts
@@ -85,13 +85,15 @@ g() {
         help
         ;;
     add)
-        path=`pwd`
-        if [ "$#" != "2" ] && [ "$#" != "3" ]; then
-            echo "usage: g add <name> [path]"
-            return
-        fi
-        if [ "$#" == "3" ]; then
-            path=$3
+        if [ "$#" == "2" ]; then
+            path=`pwd`
+        else
+            if [ "$#" == "3" ]; then
+                path=$3
+            else
+                echo "usage: g add <name> [path]"
+                return
+            fi
         fi
         get_shortcuts
         gshortcuts[$2]=$path
