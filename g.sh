@@ -63,9 +63,20 @@ save_shortcuts() {
     done
 }
 
+# Returns true if the given parameter is a keyword, false otherwise.
+is_keyword() {
+    case "$1" in
+    add | rm | list | -v | --version | -h | --help)
+        return 0
+        ;;
+    *)
+        return 1
+    esac
+}
+
 # The main function for this script.
 g() {
-    version="0.3.3"
+    version="0.3.4"
     cmd="$1"
     gfile=$HOME/.gfile
     declare -A gshortcuts
@@ -94,6 +105,10 @@ g() {
                 echo "usage: g add <name> [path]"
                 return
             fi
+        fi
+        if is_keyword $2; then
+            echo "Cannot use '$2': keyword."
+            return
         fi
         get_shortcuts
         gshortcuts[$2]=$path
