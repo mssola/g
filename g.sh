@@ -17,13 +17,13 @@
 
 
 # Print the usage string.
-usage() {
+__g_usage() {
     echo "usage: g [-h | --help] [-v | --version] <command> [<args>]"
 }
 
 # Print the help message.
-help() {
-    usage
+__g_help() {
+    __g_usage
     echo -e "\nThe g commands are:"
     tab=$'\t'
     column -t -s $'\t' <<HERE
@@ -33,38 +33,38 @@ help() {
 HERE
 }
 
-# Fill the hash of shortcuts with the contents of the gfile.
-get_shortcuts() {
+# Fill the hash of shortcuts with the contents of the __g_file.
+__g_get_shortcuts() {
     local i=0 word=""
 
-    gshortcuts=()
+    __g_shortcuts=()
     while read line; do
         if [ ! -z "$line" ]; then
             if [ "$word" == "" ]; then
                 word=$line
             else
-                gshortcuts[$word]=$(eval echo $line)
+                __g_shortcuts[$word]=$(eval echo $line)
                 word=""
             fi
             i=$(($i+1))
         fi
-    done < $gfile
+    done < $__g_file
 }
 
-# Save the computed shortcuts into the gfile.
-save_shortcuts() {
-    # Erase the contents of the gfile.
-    >$gfile
+# Save the computed shortcuts into the __g_file.
+__g_save_shortcuts() {
+    # Erase the contents of the __g_file.
+    >$__g_file
 
-    # Finally write the hash into the gfile.
-    for i in "${!gshortcuts[@]}"; do
-        echo "$i" >> $gfile
-        echo "${gshortcuts[$i]}" >> $gfile
+    # Finally write the hash into the __g_file.
+    for i in "${!__g_shortcuts[@]}"; do
+        echo "$i" >> $__g_file
+        echo "${__g_shortcuts[$i]}" >> $__g_file
     done
 }
 
 # Returns true if the given parameter is a keyword, false otherwise.
-is_keyword() {
+__g_is_keyword() {
     case "$1" in
     add | rm | list | -v | --version | -h | --help)
         return 0
@@ -76,16 +76,16 @@ is_keyword() {
 
 # The main function for this script.
 g() {
-    version="0.3.5"
+    version="0.3.6"
     cmd="$1"
-    gfile=$HOME/.gfile
-    declare -A gshortcuts
+    __g_file=$HOME/.gfile
+    declare -A __g_shortcuts
 
-    # Make sure that the gfile actually exists.
+    # Make sure that the __g_file actually exists.
     if [ ! -z "$GFILE" ]; then
-        gfile="$GFILE"
+        __g_file="$GFILE"
     fi
-    touch $gfile
+    touch $__g_file
 
     # Parse the command.
     case "$cmd" in
@@ -93,7 +93,7 @@ g() {
         echo "g version $version"
         ;;
     -h | --help)
-        help
+        __g_help
         ;;
     add)
         if [ "$#" == "2" ]; then
@@ -110,41 +110,41 @@ g() {
             echo "Cannot use '$2': keyword."
             return 1
         fi
-        get_shortcuts
-        gshortcuts[$2]=$path
-        save_shortcuts
+        __g_get_shortcuts
+        __g_shortcuts[$2]=$path
+        __g_save_shortcuts
         ;;
     rm)
         if [ "$#" != "2" ]; then
             echo "usage: g rm <name>"
             return 1
         fi
-        get_shortcuts
-        unset gshortcuts[$2]
-        save_shortcuts
+        __g_get_shortcuts
+        unset __g_shortcuts[$2]
+        __g_save_shortcuts
         ;;
     list)
-        get_shortcuts
+        __g_get_shortcuts
         if [[ "$#" == "2" && "$2" == "--keys" ]]; then
             str=""
-            for i in "${!gshortcuts[@]}"; do
+            for i in "${!__g_shortcuts[@]}"; do
                 str="$str $i"
             done
             echo $str
         else
-            for i in "${!gshortcuts[@]}"; do
-                echo -e "$i\t=> ${gshortcuts[$i]}"
+            for i in "${!__g_shortcuts[@]}"; do
+                echo -e "$i\t=> ${__g_shortcuts[$i]}"
             done | sort | column -t -s $'\t'
         fi
         ;;
     *)
-        get_shortcuts
-        if [ -z ${gshortcuts[$cmd]} ]; then
+        __g_get_shortcuts
+        if [ -z ${__g_shortcuts[$cmd]} ]; then
             echo -e "Unknown shortcut \`$cmd'.\n"
-            usage
+            __g_usage
             return 1
         else
-            cd ${gshortcuts[$cmd]}
+            cd ${__g_shortcuts[$cmd]}
         fi
         ;;
     esac
