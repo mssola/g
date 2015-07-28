@@ -76,7 +76,7 @@ is_keyword() {
 
 # The main function for this script.
 g() {
-    version="0.3.4"
+    version="0.3.5"
     cmd="$1"
     gfile=$HOME/.gfile
     declare -A gshortcuts
@@ -103,12 +103,12 @@ g() {
                 path=$3
             else
                 echo "usage: g add <name> [path]"
-                return
+                return 1
             fi
         fi
         if is_keyword $2; then
             echo "Cannot use '$2': keyword."
-            return
+            return 1
         fi
         get_shortcuts
         gshortcuts[$2]=$path
@@ -117,7 +117,7 @@ g() {
     rm)
         if [ "$#" != "2" ]; then
             echo "usage: g rm <name>"
-            return
+            return 1
         fi
         get_shortcuts
         unset gshortcuts[$2]
@@ -142,9 +142,12 @@ g() {
         if [ -z ${gshortcuts[$cmd]} ]; then
             echo -e "Unknown shortcut \`$cmd'.\n"
             usage
+            return 1
         else
             cd ${gshortcuts[$cmd]}
         fi
         ;;
     esac
+
+    return 0
 }
