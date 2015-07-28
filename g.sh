@@ -62,7 +62,7 @@ save_shortcuts() {
 
 # The main function for this script.
 g() {
-    version="0.2"
+    version="0.3"
     cmd="$1"
     gfile=$HOME/.gfile
     declare -A gshortcuts
@@ -114,7 +114,7 @@ g() {
         else
             for i in "${!gshortcuts[@]}"; do
                 echo -e "$i\t=> ${gshortcuts[$i]}"
-            done
+            done | sort | column -t -s $'\t'
         fi
         ;;
     *)
