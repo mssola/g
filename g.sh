@@ -157,7 +157,7 @@ g() {
         else
             # Expand the shortcut and append the remaining parts of the path.
             path[0]="${__g_shortcuts[$init]}"
-            cd $(__g_join ${path[@]})
+            cd $(__g_join_path ${path[@]})
         fi
         ;;
     esac
