@@ -81,7 +81,7 @@ __g_join_path() {
 
 # The main function for this script.
 g() {
-    version="0.3.7"
+    version="0.3.8"
     cmd="$1"
     __g_file=$HOME/.gfile
     declare -A __g_shortcuts
@@ -111,7 +111,7 @@ g() {
                 return 1
             fi
         fi
-        if is_keyword $2; then
+        if __g_is_keyword $2; then
             echo "Cannot use '$2': keyword."
             return 1
         fi
