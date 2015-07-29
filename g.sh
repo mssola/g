@@ -1,4 +1,3 @@
-#
 # Copyright (C) 2013-2015 Miquel Sabaté Solà <mikisabate@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
@@ -74,9 +73,15 @@ __g_is_keyword() {
     esac
 }
 
+# It returns a string with all the elements of the given array joined by slash
+# characters.
+__g_join_path() {
+    local IFS="/"; echo "$*";
+}
+
 # The main function for this script.
 g() {
-    version="0.3.6"
+    version="0.3.7"
     cmd="$1"
     __g_file=$HOME/.gfile
     declare -A __g_shortcuts
@@ -139,12 +144,20 @@ g() {
         ;;
     *)
         __g_get_shortcuts
-        if [ -z ${__g_shortcuts[$cmd]} ]; then
-            echo -e "Unknown shortcut \`$cmd'.\n"
+
+        # Split the path and check whether the first element is a shortcut or
+        # not.
+        IFS='/' read -a path <<< $cmd
+        init=${path[0]}
+
+        if [ -z ${__g_shortcuts[$init]} ]; then
+            echo -e "Unknown shortcut \`$init'.\n"
             __g_usage
             return 1
         else
-            cd ${__g_shortcuts[$cmd]}
+            # Expand the shortcut and append the remaining parts of the path.
+            path[0]="${__g_shortcuts[$init]}"
+            cd $(__g_join ${path[@]})
         fi
         ;;
     esac
