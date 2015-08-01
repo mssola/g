@@ -1,4 +1,5 @@
 language: bash
+sudo: false
 before_script:
   - source g.sh
   - apt-get install -y zsh
