@@ -116,7 +116,7 @@ g() {
             return 1
         fi
         __g_get_shortcuts
-        __g_shortcuts[$2]=$path
+        __g_shortcuts[$2]=$(realpath $path)
         __g_save_shortcuts
         ;;
     rm)

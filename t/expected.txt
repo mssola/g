@@ -1,0 +1,26 @@
+g version 0.3.8
+g version 0.3.8
+usage: g [-h | --help] [-v | --version] <command> [<args>]
+
+The g commands are:
+   add   Add a new shortcut.
+   rm    Remove a shorcut.
+   list  List all the available shortcuts.
+usage: g [-h | --help] [-v | --version] <command> [<args>]
+
+The g commands are:
+   add   Add a new shortcut.
+   rm    Remove a shorcut.
+   list  List all the available shortcuts.
+Cannot use 'add': keyword.
+usage: g add <name> [path]
+usage: g rm <name>
+usage: g rm <name>
+b root
+b root
+b
+t
+c
+Unknown shortcut `unknown'.
+
+usage: g [-h | --help] [-v | --version] <command> [<args>]

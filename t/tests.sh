@@ -15,5 +15,67 @@
 
 set -e
 
-echo "Hello World"
-exit 0
+# Cleanup previous tests and setup some special variables.
+d="$(realpath $(dirname $0))"
+rm -f $d/output.txt
+HOME="$d"
+
+# Setup the test file system.
+mkdir -p $d/a/b/c
+mkdir -p $d/a/d
+
+source $d/../g.sh
+
+# First check that the basic commands are there.
+g -v                                &>> $d/output.txt
+g --version                         &>> $d/output.txt
+g -h                                &>> $d/output.txt
+g --help                            &>> $d/output.txt
+
+# Let's add some shortcuts.
+cd $d
+g add root
+g add b a/b
+g add c a/b/c
+
+# Errors on the `add` command.
+set +e
+g add add                           &>> $d/output.txt
+g add lala lala lala                &>> $d/output.txt
+set -e
+
+# Removing shortcuts.
+g rm c
+g rm d
+
+# Errors on the `rm` command.
+set +e
+g rm                                &>> $d/output.txt
+g rm lala lala                      &>> $d/output.txt
+set -e
+
+# The list command.
+g list --keys                       &>> $d/output.txt
+g list | awk '{ print $1 }' | xargs &>> $d/output.txt
+
+# Bare g command.
+original=`pwd`
+cd /
+g b
+basename $(pwd)                     &>> $d/output.txt
+g root
+basename $(pwd)                     &>> $d/output.txt
+g root/a/b/c
+basename $(pwd)                     &>> $d/output.txt
+cd $original
+
+# Unknown shortcut.
+set +e
+g unknown                           &>> $d/output.txt
+set -e
+
+# Teardown
+diff $d/output.txt $d/expected.txt
+rm $d/output.txt
+rm -rf a
+rm -rf $d/.gfile
