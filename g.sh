@@ -101,10 +101,10 @@ g() {
         __g_help
         ;;
     add)
-        if [ "$#" == "2" ]; then
+        if [ "$#" = "2" ]; then
             path=`pwd`
         else
-            if [ "$#" == "3" ]; then
+            if [ "$#" = "3" ]; then
                 path=$3
             else
                 echo "usage: g add <name> [path]"
@@ -130,7 +130,7 @@ g() {
         ;;
     list)
         __g_get_shortcuts
-        if [[ "$#" == "2" && "$2" == "--keys" ]]; then
+        if [[ "$#" = "2" && "$2" = "--keys" ]]; then
             str=""
             for i in "${!__g_shortcuts[@]}"; do
                 str="$str $i"
