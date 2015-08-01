@@ -1,4 +1,4 @@
-# Yeah! just one letter !
+# Yeah! just one letter ! [![Build Status](https://travis-ci.org/mssola/g.svg)](https://travis-ci.org/mssola/g)
 
 This repository holds a very humble and simple script that handles shortcuts
 of bash paths. For example:

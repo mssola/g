@@ -1,13 +1,9 @@
 language: bash
+
 before_script:
   - source g.sh
   - sudo apt-get install -y zsh
+
 script:
   - bash t/tests.sh
   - zsh t/tests.sh
-os:
-  - linux
-  - osx
-matrix:
-  allow_failures:
-    -os: osx
