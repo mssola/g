@@ -1,8 +1,7 @@
 language: bash
-sudo: false
 before_script:
   - source g.sh
-  - apt-get install -y zsh
+  - sudo apt-get install -y zsh
 script:
   - bash t/tests.sh
   - zsh t/tests.sh
