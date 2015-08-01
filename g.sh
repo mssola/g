@@ -39,7 +39,7 @@ __g_get_shortcuts() {
     __g_shortcuts=()
     while read line; do
         if [ ! -z "$line" ]; then
-            if [ "$word" == "" ]; then
+            if [ "$word" = "" ]; then
                 word=$line
             else
                 __g_shortcuts[$word]=$(eval echo $line)
