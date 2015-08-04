@@ -83,6 +83,11 @@ __g_join_path() {
 g() {
     version="0.3.8"
     cmd="$1"
+    if [ -z "$cmd" ]; then
+        __g_help
+        return 1
+    fi
+
     __g_file=$HOME/.gfile
     declare -A __g_shortcuts
 
