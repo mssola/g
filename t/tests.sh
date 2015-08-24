@@ -15,8 +15,14 @@
 
 set -e
 
+# From g.sh
+__g_realpath() {
+    [ -d "$1" ] && echo "$(cd "$1" && pwd)" || echo "$(cd "$(dirname "$1")"
+        && pwd)/$(basename "$1")"
+}
+
 # Cleanup previous tests and setup some special variables.
-d="$(realpath $(dirname $0))"
+d="$(__g_realpath $(dirname $0))"
 rm -f $d/output.txt
 HOME="$d"
 
