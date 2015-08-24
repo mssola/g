@@ -1,7 +1,7 @@
 language: bash
 
 before_script:
-  - sudo apt-get install -y zsh realpath
+  - sudo apt-get install -y zsh
 
 script:
   - bash t/tests.sh
