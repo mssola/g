@@ -1,5 +1,5 @@
-g version 0.3.8
-g version 0.3.8
+g version 0.3.9
+g version 0.3.9
 usage: g [-h | --help] [-v | --version] <command> [<args>]
 
 The g commands are:

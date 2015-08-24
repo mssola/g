@@ -53,7 +53,7 @@ __g_get_shortcuts() {
 # Save the computed shortcuts into the __g_file.
 __g_save_shortcuts() {
     # Erase the contents of the __g_file.
-    >$__g_file
+    :>$__g_file
 
     # Finally write the hash into the __g_file.
     for i in "${!__g_shortcuts[@]}"; do
