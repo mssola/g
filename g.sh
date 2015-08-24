@@ -79,9 +79,16 @@ __g_join_path() {
     local IFS="/"; echo "$*";
 }
 
+# Replacement for the non-standard `realpath` command. Implemented taken from
+# https://github.com/travis-ci/gimme.
+__g_realpath() {
+    [ -d "$1" ] && echo "$(cd "$1" && pwd)" || echo "$(cd "$(dirname "$1")"
+        && pwd)/$(basename "$1")"
+}
+
 # The main function for this script.
 g() {
-    version="0.3.8"
+    version="0.3.9"
     cmd="$1"
     if [ -z "$cmd" ]; then
         __g_help
@@ -121,7 +128,7 @@ g() {
             return 1
         fi
         __g_get_shortcuts
-        __g_shortcuts[$2]=$(realpath $path)
+        __g_shortcuts[$2]=$(__g_realpath $path)
         __g_save_shortcuts
         ;;
     rm)
