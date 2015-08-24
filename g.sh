@@ -14,7 +14,6 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-
 # Print the usage string.
 __g_usage() {
     echo "usage: g [-h | --help] [-v | --version] <command> [<args>]"
@@ -55,8 +54,15 @@ __g_save_shortcuts() {
     # Erase the contents of the __g_file.
     :>$__g_file
 
+    # Bash vs zsh
+    if [ -n "$ZSH_VERSION" ]; then
+        keys="${(@i)__g_shortcuts}"
+    else
+        keys="${!__g_shortcuts[@]}"
+    fi
+
     # Finally write the hash into the __g_file.
-    for i in "${!__g_shortcuts[@]}"; do
+    for i in $keys; do
         echo "$i" >> $__g_file
         echo "${__g_shortcuts[$i]}" >> $__g_file
     done
@@ -82,7 +88,7 @@ __g_join_path() {
 # Replacement for the non-standard `realpath` command. Implemented taken from
 # https://github.com/travis-ci/gimme.
 __g_realpath() {
-    [ -d "$1" ] && echo "$(cd "$1" && pwd)" || echo "$(cd "$(dirname "$1")"
+    [ -d "$1" ] && echo "$(cd "$1" && pwd)" || echo "$(cd "$(dirname "$1")" \
         && pwd)/$(basename "$1")"
 }
 

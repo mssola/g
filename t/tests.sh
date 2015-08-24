@@ -17,7 +17,7 @@ set -e
 
 # From g.sh
 __g_realpath() {
-    [ -d "$1" ] && echo "$(cd "$1" && pwd)" || echo "$(cd "$(dirname "$1")"
+    [ -d "$1" ] && echo "$(cd "$1" && pwd)" || echo "$(cd "$(dirname "$1")" \
         && pwd)/$(basename "$1")"
 }
 
