@@ -19,12 +19,12 @@ I guess that the commands above are quite self-explanatory. Note though that if
 the path was not given to the add command then the current working directory
 will be picked instead.
 
-# Install
+## Install
 
-Just place the g.sh and the gcompletion.sh files wherever you want and then
-add a "source" command for both of the files in the .bashrc file.
+Just place the `g.sh` and the `gcompletion.sh` files wherever you want and then
+add a `source` command for both of the files in the `.bashrc` file.
 
-# Legal stuff
+## Legal stuff
 
 Copyright (C) 2013-2016 Miquel Sabaté Solà
 
