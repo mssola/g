@@ -1,8 +1,7 @@
 language: bash
-
-before_script:
-  - sudo apt-get install -y zsh
+sudo: required
+services:
+  - docker
 
 script:
-  - bash t/tests.sh
-  - zsh t/tests.sh
+  - make
