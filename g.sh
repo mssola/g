@@ -33,18 +33,17 @@ HERE
 
 # Fill the hash of shortcuts with the contents of the __g_file.
 __g_get_shortcuts() {
-    local i=0 word=""
+    local word=""
 
     __g_shortcuts=()
     while read line; do
         if [ ! -z "$line" ]; then
-            if [ "$word" = "" ]; then
+            if [ -z "$word" ]; then
                 word=$line
             else
                 __g_shortcuts[$word]=$(eval echo $line)
                 word=""
             fi
-            i=$(($i+1))
         fi
     done < $__g_file
 }
