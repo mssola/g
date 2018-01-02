@@ -1,4 +1,4 @@
-# Copyright (C) 2013-2016 Miquel Sabaté Solà <mikisabate@gmail.com>
+# Copyright (C) 2013-2018 Miquel Sabaté Solà <mikisabate@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -114,7 +114,7 @@ g() {
     -v | --version)
         cat <<HERE
 g version $version
-Copyright (C) 2013-2016 Miquel Sabaté Solà <mikisabate@gmail.com>
+Copyright (C) 2013-2018 Miquel Sabaté Solà <mikisabate@gmail.com>
 License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
 This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
