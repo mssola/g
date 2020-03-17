@@ -1,0 +1,30 @@
+#+STARTUP:showall
+
+* Changelog
+
+** 0.3.x
+
+Lots of minor code improvements across different releases that were not tagged
+in git:
+
+- a54d534d3585 Improved the layout of the table displayed by the =list= command.
+- 3b18f5039369 Improved the layout of the help command.
+- 8b873f3d5e4b Don't allow the user to add shortcuts whose name conflicts with commands.
+- d63a1d032b89 Return a proper exit code.
+- e55408103393 Using the =__g= namespace for everything.
+- ebe139b64189 Allow relative paths.
+- e5541ca8d93c Introduced CI.
+- 21140b4d13d3 Print the usage function if no argument was given.
+- 9e9bee407b7e Replaced the =realpath= function with one taken from [[https://github.com/travis-ci/gimme][travis-ci/gimme]].
+- 0f7ff3a89637 Add copyright notice into the -v/--version flags.
+
+** 0.2
+
+- 3c070c44d7ef Tabulate output of the =list= command.
+- 35c0df4330d4 The third argument of the =add= command is optional now.
+
+** 0.1
+
+- 50c8973995f1 Initial commit with basic functionality.
+- 97122b6f5f29 Added the =--keys= option to the =list= command.
+- 35176441ca34 Added a GNU Bash completion file.
