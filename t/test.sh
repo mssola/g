@@ -36,8 +36,8 @@ g rm lala lala                      &>> /output.txt
 set -e
 
 # The list command.
-g list --keys                       &>> /output.txt
-g list | awk '{ print $1 }' | xargs &>> /output.txt
+g list --keys | xargs -n1 | sort | xargs   &>> /output.txt
+g list | awk '{ print $1 }' | sort | xargs &>> /output.txt
 
 # Bare g command.
 cd /
