@@ -30,6 +30,15 @@ will just print a help message). This is done so when running the default make
 task this doesn't interrupt it. This task is already called by the default
 =test= one.
 
+*** Shellcheck
+
+This project uses [[https://github.com/koalaman/shellcheck][shellcheck]] in order to validate the code style. In order to
+run =shellcheck=, just perform:
+
+#+BEGIN_SRC bash
+$ make shellcheck
+#+END_SRC
+
 ** Issue reporting
 
 I'm using [[https://github.com/mssola/writer-mode][Github]] in order to host the code. Thus, in order to report issues you

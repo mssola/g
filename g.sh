@@ -1,3 +1,4 @@
+#!/bin/bash
 # Copyright (C) 2013-2020 Miquel Sabaté Solà <mikisabate@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
@@ -36,34 +37,36 @@ __g_get_shortcuts() {
     local word=""
 
     __g_shortcuts=()
-    while read line; do
-        if [ ! -z "$line" ]; then
+    while read -r line; do
+        if [ -n "$line" ]; then
             if [ -z "$word" ]; then
                 word=$line
             else
-                __g_shortcuts[$word]=$(eval echo $line)
+                __g_shortcuts[$word]=$(eval echo "$line")
                 word=""
             fi
         fi
-    done < $__g_file
+    done < "$__g_file"
 }
 
 # Save the computed shortcuts into the __g_file.
 __g_save_shortcuts() {
     # Erase the contents of the __g_file.
-    :>$__g_file
+    :>"$__g_file"
 
     # Bash vs zsh
     if [ -n "$ZSH_VERSION" ]; then
+        # shellcheck disable=SC2154
         keys="${(@i)__g_shortcuts}"
     else
+        # shellcheck disable=SC2124
         keys="${!__g_shortcuts[@]}"
     fi
 
     # Finally write the hash into the __g_file.
     for i in $keys; do
-        echo "$i" >> $__g_file
-        echo "${__g_shortcuts[$i]}" >> $__g_file
+        echo "$i" >> "$__g_file"
+        echo "${__g_shortcuts[$i]}" >> "$__g_file"
     done
 }
 
@@ -87,6 +90,7 @@ __g_join_path() {
 # Replacement for the non-standard `realpath` command. Implemented taken from
 # https://github.com/travis-ci/gimme.
 __g_realpath() {
+    # shellcheck disable=SC2005
     [ -d "$1" ] && echo "$(cd "$1" && pwd)" || echo "$(cd "$(dirname "$1")" \
         && pwd)/$(basename "$1")"
 }
@@ -104,10 +108,10 @@ g() {
     declare -A __g_shortcuts
 
     # Make sure that the __g_file actually exists.
-    if [ ! -z "$GFILE" ]; then
+    if [ -n "$GFILE" ]; then
         __g_file="$GFILE"
     fi
-    touch $__g_file
+    touch "$__g_file"
 
     # Parse the command.
     case "$cmd" in
@@ -125,21 +129,21 @@ HERE
         ;;
     add)
         if [ "$#" = "2" ]; then
-            path=`pwd`
+            path=$(pwd)
         else
             if [ "$#" = "3" ]; then
-                path=$3
+                path="$3"
             else
                 echo "usage: g add <name> [path]"
                 return 1
             fi
         fi
-        if __g_is_keyword $2; then
+        if __g_is_keyword "$2"; then
             echo "Cannot use '$2': keyword."
             return 1
         fi
         __g_get_shortcuts
-        __g_shortcuts[$2]=$(__g_realpath $path)
+        __g_shortcuts[$2]=$(__g_realpath "$path")
         __g_save_shortcuts
         ;;
     rm)
@@ -148,7 +152,7 @@ HERE
             return 1
         fi
         __g_get_shortcuts
-        unset __g_shortcuts[$2]
+        unset "__g_shortcuts[$2]"
         __g_save_shortcuts
         ;;
     list)
@@ -158,7 +162,7 @@ HERE
             for i in "${!__g_shortcuts[@]}"; do
                 str="$str $i"
             done
-            echo $str
+            echo "$str"
         else
             for i in "${!__g_shortcuts[@]}"; do
                 echo -e "$i\t=> ${__g_shortcuts[$i]}"
@@ -170,17 +174,17 @@ HERE
 
         # Split the path and check whether the first element is a shortcut or
         # not.
-        IFS='/' read -a path <<< $cmd
-        init=${path[0]}
+        IFS='/' read -r -a path <<< "$cmd"
+        init="${path[0]}"
 
-        if [ -z ${__g_shortcuts[$init]} ]; then
+        if [ -z "${__g_shortcuts[$init]}" ]; then
             echo -e "Unknown shortcut \`$init'.\n"
             __g_usage
             return 1
         else
             # Expand the shortcut and append the remaining parts of the path.
             path[0]="${__g_shortcuts[$init]}"
-            cd $(__g_join_path ${path[@]})
+            cd "$(__g_join_path "${path[@]}")" || return 1
         fi
         ;;
     esac
