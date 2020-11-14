@@ -37,7 +37,8 @@ __g_get_shortcuts() {
     local word=""
 
     __g_shortcuts=()
-    while read -r line; do
+    # shellcheck disable=SC2162
+    while read line; do
         if [ -n "$line" ]; then
             if [ -z "$word" ]; then
                 word=$line
@@ -49,21 +50,25 @@ __g_get_shortcuts() {
     done < "$__g_file"
 }
 
+# Echoes the keys of the current shortcuts. This is needed to cope with some
+# differences between GNU Bash and ZSH.
+__g_fetch_shortcut_keys() {
+    if [ -n "$ZSH_VERSION" ]; then
+        # shellcheck disable=SC2154
+        echo "${(@k)__g_shortcuts}"
+    else
+        # shellcheck disable=SC2124
+        echo "${!__g_shortcuts[@]}"
+    fi
+}
+
 # Save the computed shortcuts into the __g_file.
 __g_save_shortcuts() {
     # Erase the contents of the __g_file.
     :>"$__g_file"
 
-    # Bash vs zsh
-    if [ -n "$ZSH_VERSION" ]; then
-        # shellcheck disable=SC2154
-        keys="${(@i)__g_shortcuts}"
-    else
-        # shellcheck disable=SC2124
-        keys="${!__g_shortcuts[@]}"
-    fi
-
-    # Finally write the hash into the __g_file.
+    # And write the hash into the __g_file.
+    keys=$(__g_fetch_shortcut_keys)
     for i in $keys; do
         echo "$i" >> "$__g_file"
         echo "${__g_shortcuts[$i]}" >> "$__g_file"
@@ -111,7 +116,7 @@ g() {
     if [ -n "$GFILE" ]; then
         __g_file="$GFILE"
     fi
-    touch "$__g_file"
+    :>> "$__g_file"
 
     # Parse the command.
     case "$cmd" in
@@ -129,10 +134,10 @@ HERE
         ;;
     add)
         if [ "$#" = "2" ]; then
-            path=$(pwd)
+            p=$(pwd)
         else
             if [ "$#" = "3" ]; then
-                path="$3"
+                p="$3"
             else
                 echo "usage: g add <name> [path]"
                 return 1
@@ -143,7 +148,7 @@ HERE
             return 1
         fi
         __g_get_shortcuts
-        __g_shortcuts[$2]=$(__g_realpath "$path")
+        __g_shortcuts[$2]=$(__g_realpath "$p")
         __g_save_shortcuts
         ;;
     rm)
@@ -157,15 +162,20 @@ HERE
         ;;
     list)
         __g_get_shortcuts
+        keys=$(__g_fetch_shortcut_keys)
         if [[ "$#" = "2" && "$2" = "--keys" ]]; then
             str=""
-            for i in "${!__g_shortcuts[@]}"; do
+            for i in $keys; do
                 str="$str $i"
             done
             echo "$str"
         else
-            for i in "${!__g_shortcuts[@]}"; do
-                echo -e "$i\t=> ${__g_shortcuts[$i]}"
+            for i in $keys; do
+                if [ -d "${__g_shortcuts[$i]}" ]; then
+                    echo -e "$i\t=> ${__g_shortcuts[$i]}"
+                else
+                    echo -e "$i\t=> ${__g_shortcuts[$i]} (broken)"
+                fi
             done | sort | column -t -s $'\t'
         fi
         ;;
@@ -174,8 +184,15 @@ HERE
 
         # Split the path and check whether the first element is a shortcut or
         # not.
-        IFS='/' read -r -a path <<< "$cmd"
-        init="${path[0]}"
+        if [ -n "$ZSH_VERSION" ]; then
+            # shellcheck disable=SC2154
+            p=( "${(@s|/|)cmd}" )
+            init="${p[1]}"
+        else
+            # shellcheck disable=SC2124
+            IFS='/' read -r -a p <<< "$cmd"
+            init="${p[0]}"
+        fi
 
         if [ -z "${__g_shortcuts[$init]}" ]; then
             echo -e "Unknown shortcut \`$init'.\n"
@@ -183,8 +200,13 @@ HERE
             return 1
         else
             # Expand the shortcut and append the remaining parts of the path.
-            path[0]="${__g_shortcuts[$init]}"
-            cd "$(__g_join_path "${path[@]}")" || return 1
+            if [ -n "$ZSH_VERSION" ]; then
+                p[1]="${__g_shortcuts[$init]}"
+            else
+                p[0]="${__g_shortcuts[$init]}"
+            fi
+
+            cd "$(__g_join_path "${p[@]}")" || return 1
         fi
         ;;
     esac

@@ -2,8 +2,15 @@
 test: git-validation shellcheck unit-test
 
 .PHONY: unit-test
-unit-test:
+unit-test: build-image bash-test
+
+.PHONY: build-image
+build-image:
 	@docker build -t mssola/g:latest .
+
+.PHONY: bash-test
+bash-test:
+	@echo -e "BASH\ttest.sh"
 	@docker run --rm mssola/g:latest bash test.sh
 
 .PHONY: git-validation
