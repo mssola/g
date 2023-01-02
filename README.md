@@ -1,20 +1,24 @@
-* Yeah! just one letter !
-[[https://travis-ci.org/mssola/g][https://travis-ci.org/mssola/g.svg?branch=master]]
+<p align="center">
+  <a href="https://github.com/mssola/g/actions?query=workflow%3ACI" title="CI status for the main branch"><img src="https://github.com/mssola/g/workflows/CI/badge.svg" alt="Build Status for main branch" /></a>
+  <a href="http://www.gnu.org/licenses/gpl-3.0.txt" rel="nofollow"><img alt="License GPL 3" src="https://img.shields.io/badge/license-GPL_3-blue.svg" style="max-width:100%;"></a>
+</p>
+
+---
 
 This repository holds a very humble and simple script that handles shortcuts of
 bash paths. For example:
 
-#+BEGIN_SRC bash
+``` sh
 $ g awesome
 # instead of ...
 $ cd /home/user/directory/dir/awesome
-#+END_SRC
+```
 
 Furthermore, this repo also brings a file that adds bash completion so the user
 can access the desired directory as fast as possible. In order to manage
 shortcuts, this script accepts three commands:
 
-#+BEGIN_SRC bash
+``` sh
 $ g add awesome /home/user/directory/dir/awesome
 $ g list
 # Output:
@@ -25,31 +29,26 @@ $ g rm awesome
 $ g list
 # Output:
 # anotherawesome  => /home/user/directory/anotherawesome
-#+END_SRC
+```
 
 I guess that the commands above are quite self-explanatory.
 
-** Install
+## Install
 
-Just place the =g.sh= and the =gcompletion.sh= files wherever you want and then
-add a =source= command for both of the files in the =.bashrc= file.
+Just place the `g.sh` and the `gcompletion.sh` files wherever you want and then
+add a `source` command for both of the files in the `.bashrc` file.
 
-** GNU Emacs
+## Contributing
 
-I have also created a package for GNU Emacs and it is available on my [[https://github.com/mssola/dotfiles/blob/master/.emacs.d/lisp/g.el][dotfiles]]
-project.
+Read the [CONTRIBUTING.org](./CONTRIBUTING.org) file.
 
-** Contributing
+## [Changelog](https://pbs.twimg.com/media/DJDYCcLXcAA_eIo?format=jpg&name=small)
 
-Read the [[./CONTRIBUTING.org][CONTRIBUTING.org]] file.
+Read the [CHANGELOG.org](./CHANGELOG.org) file.
 
-** [[https://pbs.twimg.com/media/DJDYCcLXcAA_eIo?format=jpg&name=small][Changelog]]
+## License
 
-Read the [[./CHANGELOG.org][CHANGELOG.org]] file.
-
-** Legal stuff
-
-#+BEGIN_SRC text
+```txt
 Copyright (C) 2013-2023 Miquel Sabaté Solà <mikisabate@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -64,4 +63,4 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#+END_SRC
+```
