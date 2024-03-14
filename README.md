@@ -49,7 +49,7 @@ Read the [CHANGELOG.org](./CHANGELOG.org) file.
 ## License
 
 ```txt
-Copyright (C) 2013-2023 Miquel Sabaté Solà <mikisabate@gmail.com>
+Copyright (C) 2013-Ω Miquel Sabaté Solà <mikisabate@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
